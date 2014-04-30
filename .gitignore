@@ -10,5 +10,6 @@
 .classpath
 .project
 
+bin/
 target/
 .DS_Store
