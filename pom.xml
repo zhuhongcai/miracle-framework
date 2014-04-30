@@ -23,6 +23,7 @@
 		<module>miracle-framework-base</module>
 		<module>miracle-framework-repository</module>
 		<module>miracle-framework-service</module>
+		<module>miracle-framework-webmvc</module>
 	</modules>
 	
 	<dependencyManagement>

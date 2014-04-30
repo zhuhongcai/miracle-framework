@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:p="http://www.springframework.org/schema/p" 
+		xmlns:aop="http://www.springframework.org/schema/aop" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-3.2.xsd
+						http://www.springframework.org/schema/mvc 
+						http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+						">
+	<!-- 搜索controller包下的所有元注释 -->
+	<context:component-scan base-package="com.miraclesea.**.controller">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+	
+	<aop:aspectj-autoproxy />
+	
+	<!-- Spring 3 MVC不拦截的静态资源 -->
+	<mvc:resources mapping="/js/**" location="/js/" />
+	<mvc:resources mapping="/css/**" location="/css/" />
+	
+	<!-- 定义数据类型转换服务 -->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
+	
+	<!-- 开启元注释驱动 -->
+	<mvc:annotation-driven conversion-service="conversionService">
+		<mvc:message-converters>
+			<!-- 配置传输的内容(JSON)是UTF-8的字符集 -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+			<!-- 配置Jackson -->
+			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" p:objectMapper-ref="jacksonObjectMapper" />
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<!-- 配置Jackson生成的JSON字符串不包含java对象中null的值 -->
+	<bean id="jacksonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper" />
+	<bean id="jacksonSerializationConfig" class="org.codehaus.jackson.map.SerializationConfig" factory-bean="jacksonObjectMapper" factory-method="getSerializationConfig" />
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="jacksonSerializationConfig" />
+		<property name="targetMethod" value="setSerializationInclusion" />
+		<property name="arguments">
+			<list>
+				<value type="org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion">NON_NULL</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!--配置FreeMarker -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="cache" value="false"/>
+		<property name="order" value="1" /> 
+		<property name="prefix" value="include/" />
+		<property name="suffix" value=".ftl" />
+		<property name="contentType" value="text/html;charset=utf-8" />
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.freemarker.FreeMarkerView</value>
+		</property>
+		<!-- 配置上下文, ftl文件中可以使用${rc.getContextPath()} 来获取文件上下文, 类似jsp的request.getContextPath() -->
+		<property name="requestContextAttribute" value="rc" />
+	</bean>
+	<bean id="freemarkerConfiguration" class="org.springframework.beans.factory.config.PropertiesFactoryBean" 
+			p:location="classpath:config/freemarker/freemarker.properties" 
+		/>
+	<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer" 
+			p:defaultEncoding="UTF-8" 
+			p:templateLoaderPath="/templates" 
+			p:freemarkerSettings-ref="freemarkerConfiguration" 
+		/>
+	
+	<!-- 注册国际化Bean -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
+	
+	<!-- 异常处理 
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView" value="/error/commonError" />
+		<property name="exceptionMappings">
+			<props>
+				<prop key="com.miraclesea.framework.exception.UserException">/error/userException</prop>
+			</props>
+		</property>
+		<property name="warnLogCategory" value="ErrorLog" />
+	</bean>
+	-->
+	
+	<mvc:interceptors>
+		<!-- 国际化的拦截器 -->
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+	</mvc:interceptors>
+</beans>
