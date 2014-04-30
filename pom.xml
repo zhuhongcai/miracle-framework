@@ -21,6 +21,7 @@
 	
 	<modules>
 		<module>miracle-framework-base</module>
+		<module>miracle-framework-repository</module>
 	</modules>
 	
 	<dependencyManagement>
