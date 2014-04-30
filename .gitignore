@@ -4,3 +4,11 @@
 *.jar
 *.war
 *.ear
+
+# Eclipse artifacts
+.settings
+.classpath
+.project
+
+target/
+.DS_Store
