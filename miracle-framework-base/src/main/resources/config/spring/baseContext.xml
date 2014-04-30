@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-3.2.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+						">
+	<!-- 配置Spring自动读取元注释的包路径 -->
+	<context:component-scan base-package="com.miracle">
+		<!-- 不读取Spring的控制器元注释 -->
+		<context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation" />
+	</context:component-scan>
+	
+	<!-- 读取资源文件 -->
+	<context:property-placeholder location="classpath*:*.properties, classpath*:prop/*.properties" />
+	
+	<!-- 开启aspectJ支持 -->
+	<aop:aspectj-autoproxy />
+	
+	<!-- 使用JSR303 Bean Validator, 需要有个实现类在class path下(如Hibernate Validator), Spring会自动寻找 -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+</beans>
