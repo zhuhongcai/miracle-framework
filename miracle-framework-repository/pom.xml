@@ -20,7 +20,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.miracle</groupId>
-			<artifactId>miracle-test-repository</artifactId>
+			<artifactId>miracle-test-jpa-repository</artifactId>
 		</dependency>
 		
 		<dependency>
