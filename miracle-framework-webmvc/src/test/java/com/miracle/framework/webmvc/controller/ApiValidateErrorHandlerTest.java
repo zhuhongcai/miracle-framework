@@ -9,9 +9,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.Test;
 
-import com.miracle.test.webmvc.ApiControllerBaseTest;
+import com.miracle.test.webmvc.AbstractApiControllerContextTests;
 
-public class ApiValidateErrorHandlerTest extends ApiControllerBaseTest {
+public class ApiValidateErrorHandlerTest extends AbstractApiControllerContextTests {
 	
 	@Test
 	public void invalidData() throws Exception {
