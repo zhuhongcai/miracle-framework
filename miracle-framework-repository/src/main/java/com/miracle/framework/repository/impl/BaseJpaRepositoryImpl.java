@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.miracle.framework.entity.OptimisticLockable;
 import com.miracle.framework.reflection.ReflectionUtil;
@@ -14,6 +15,7 @@ import com.miracle.framework.repository.BaseJpaRepository;
 import com.miracle.framework.repository.exception.OptimisticLockingException;
 import com.miracle.framework.repository.exception.PrimaryKeyNotFoundException;
 
+@Transactional(readOnly = true)
 public final class BaseJpaRepositoryImpl<E extends Persistable<I>, I extends Serializable> extends SimpleJpaRepository<E, I> implements BaseJpaRepository<E, I> {
 
 	private final EntityManager entityManager;
@@ -26,6 +28,7 @@ public final class BaseJpaRepositoryImpl<E extends Persistable<I>, I extends Ser
 	}
 	
 	@Override
+	@Transactional
 	public E updateNotNull(final E entity) {
 		E entityFromDb = findOne(entity.getId());
 		if (entity instanceof OptimisticLockable && entityFromDb instanceof OptimisticLockable) {
@@ -51,6 +54,7 @@ public final class BaseJpaRepositoryImpl<E extends Persistable<I>, I extends Ser
 	}
 	
 	@Override
+	@Transactional
 	public void delete(final I id) {
 		findOne(id);
 		super.delete(id);

@@ -1,5 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<dataset>
-	<test_entity id="1" name="test1" version="0" />
-	<test_entity id="2" name="test2" version="10" />
-</dataset>

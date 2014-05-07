@@ -2,122 +2,103 @@ package com.miracle.framework.repository;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
+
+import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.unitils.database.annotations.Transactional;
-import org.unitils.database.util.TransactionMode;
-import org.unitils.dbunit.annotation.DataSet;
-import org.unitils.dbunit.annotation.ExpectedDataSet;
-import org.unitils.spring.annotation.SpringBeanByType;
 
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import com.miracle.framework.entity.TestEntity;
 import com.miracle.framework.repository.exception.OptimisticLockingException;
 import com.miracle.framework.repository.exception.PrimaryKeyNotFoundException;
-import com.miracle.test.repository.database.DatabaseRepositoryBaseTest;
+import com.miracle.test.repository.database.AbstractDatabaseRepositoryContextTests;
 
-@DataSet
-public final class BaseJpaRepositoryTest extends DatabaseRepositoryBaseTest {
+public final class BaseJpaRepositoryTest extends AbstractDatabaseRepositoryContextTests {
 	
-	@SpringBeanByType
+	@Resource
 	private TestEntityRepository testEntityRepository;
 	
 	@Test
+	@DatabaseSetup("Empty.xml")
+	@ExpectedDatabase(value = "AfterSave.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	public void save() {
-		TestEntity actual = new TestEntity();
-		actual.setName("test3");
-		testEntityRepository.save(actual);
-		assertThat(testEntityRepository.count(), is(3L));
-		for (TestEntity expected : testEntityRepository.findAll()) {
-			if ("1".equals(expected.getId()) || "2".equals(expected.getId())) {
-				continue;
-			}
-			assertReflectionEquals(expected, actual);
-		}
-		
+		testEntityRepository.save(new TestEntity(null, "test1"));
 	}
 	
 	@Test(expected = PrimaryKeyNotFoundException.class)
-	@Transactional(TransactionMode.ROLLBACK)
+	@DatabaseSetup("NormalData.xml")
+	@ExpectedDatabase(value = "NormalData.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	public void updateNotNullFailureForRecordNotFound() {
-		TestEntity actual = new TestEntity();
-		actual.setId("notExist");
-		testEntityRepository.updateNotNull(actual);
+		testEntityRepository.updateNotNull(new TestEntity("notExist"));
 	}
 	
 	@Test(expected = OptimisticLockingException.class)
-	@Transactional(TransactionMode.ROLLBACK)
+	@DatabaseSetup("NormalData.xml")
+	@ExpectedDatabase(value = "NormalData.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	public void updateNotNullFailureForOptimisticLock() {
-		TestEntity actual = new TestEntity();
-		actual.setId("1");
-		actual.setVersion(-1L);
-		testEntityRepository.updateNotNull(actual);
+		testEntityRepository.updateNotNull(new TestEntity("1", -1));
 	}
 	
 	@Test
+	@DatabaseSetup("NormalData.xml")
+	@ExpectedDatabase(value = "AfterUpdateNotNullSuccess.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	public void updateNotNullSuccess() {
-		TestEntity actual = new TestEntity();
-		actual.setId("1");
+		TestEntity actual = new TestEntity("1");
 		actual.setExtraText("extraText");
 		testEntityRepository.updateNotNull(actual);
-		assertThat(testEntityRepository.count(), is(2L));
-		assertReflectionEquals(testEntityRepository.findAll().get(0), buildTestEntity("1", "test1", "extraText", 1L));
 	}
 	
 	@Test(expected = PrimaryKeyNotFoundException.class)
-	@Transactional(TransactionMode.ROLLBACK)
+	@DatabaseSetup("NormalData.xml")
+	@ExpectedDatabase(value = "NormalData.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	public void deleteFailureForDataNotFound() {
 		testEntityRepository.delete("NotExistId");
 	}
 	
 	@Test
-	@ExpectedDataSet
+	@DatabaseSetup("NormalData.xml")
+	@ExpectedDatabase(value = "AfterDeleteSuccess.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	public void deleteSuccess() {
 		testEntityRepository.delete("1");
 	}
 	
 	@Test(expected = PrimaryKeyNotFoundException.class)
-	@Transactional(TransactionMode.ROLLBACK)
+	@DatabaseSetup("NormalData.xml")
 	public void findOneFailureForDataNotFound() {
 		testEntityRepository.findOne("NotExistId");
 	}
 	
 	@Test
+	@DatabaseSetup("NormalData.xml")
 	public void findOneSuccess() {
-		assertReflectionEquals(testEntityRepository.findOne("1"), buildTestEntity("1", "test1", null, 0L));
-		assertReflectionEquals(testEntityRepository.findOne("2"), buildTestEntity("2", "test2", null, 10L));
+		assertThat(testEntityRepository.findOne("1"), is(new TestEntity("1", "test1", "1", 0L)));
+		assertThat(testEntityRepository.findOne("2"), is(new TestEntity("2", "test2", "2", 10L)));
 	}
 	
 	@Test
+	@DatabaseSetup("NormalData.xml")
 	public void findAll() {
 		Page<TestEntity> testEntities = testEntityRepository.findAll(new PageRequest(0, 10));
 		assertThat(testEntities.getTotalElements(), is(2L));
 		assertThat(testEntities.getTotalPages(), is(1));
 		assertThat(testEntities.getContent().size(), is(2));
-		assertReflectionEquals(testEntities.getContent().get(0), buildTestEntity("1", "test1", null, 0L));
-		assertReflectionEquals(testEntities.getContent().get(1), buildTestEntity("2", "test2", null, 10L));
+		assertThat(testEntities.getContent().get(0), is(new TestEntity("1", "test1", "1", 0L)));
+		assertThat(testEntities.getContent().get(1), is(new TestEntity("2", "test2", "2", 10L)));
 		
 		testEntities = testEntityRepository.findAll(new PageRequest(0, 1));
 		assertThat(testEntities.getTotalElements(), is(2L));
 		assertThat(testEntities.getTotalPages(), is(2));
 		assertThat(testEntities.getContent().size(), is(1));
-		assertReflectionEquals(testEntities.getContent().get(0), buildTestEntity("1", "test1", null, 0L));
+		assertThat(testEntities.getContent().get(0), is(new TestEntity("1", "test1", "1", 0L)));
 		
 		testEntities = testEntityRepository.findAll(new PageRequest(1, 1));
 		assertThat(testEntities.getTotalElements(), is(2L));
 		assertThat(testEntities.getTotalPages(), is(2));
 		assertThat(testEntities.getContent().size(), is(1));
-		assertReflectionEquals(testEntities.getContent().get(0), buildTestEntity("2", "test2", null, 10L));
-	}
-	
-	private TestEntity buildTestEntity(final String id, final String name, final String extraText, final long version) {
-		TestEntity result = new TestEntity();
-		result.setId(id);
-		result.setName(name);
-		result.setExtraText(extraText);
-		result.setVersion(version);
-		return result;
+		assertThat(testEntities.getContent().get(0), is(new TestEntity("2", "test2", "2", 10L)));
 	}
 }

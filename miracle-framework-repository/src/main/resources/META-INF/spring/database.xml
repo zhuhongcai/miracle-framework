@@ -6,9 +6,9 @@
 	xmlns:p="http://www.springframework.org/schema/p" 
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa" 
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-						http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+						http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/tx 
-						http://www.springframework.org/schema/tx/spring-tx-3.2.xsd 
+						http://www.springframework.org/schema/tx/spring-tx.xsd 
 						http://www.springframework.org/schema/data/jpa 
 						http://www.springframework.org/schema/data/jpa/spring-jpa.xsd 
 						">
@@ -31,6 +31,6 @@
 	<!-- 将所有具有@Transactional注解的Bean自动配置为生命式事务支持 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
-	<jpa:repositories base-package="com.miracle" factory-class="com.miracle.framework.repository.BaseJpaRepositoryFactoryBean" transaction-manager-ref="transactionManager" />
+	<jpa:repositories base-package="com.miracle" factory-class="com.miracle.framework.repository.BaseJpaRepositoryFactoryBean" entity-manager-factory-ref="entityManagerFactory" transaction-manager-ref="transactionManager" />
 	<jpa:auditing />
 </beans>
