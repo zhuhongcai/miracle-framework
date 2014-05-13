@@ -1,0 +1,16 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.miracle</groupId>
+		<artifactId>miracle-framework</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	<artifactId>miracle-framework-container</artifactId>
+	<packaging>pom</packaging>
+	<name>${project.artifactId}</name>
+	
+	<modules>
+		<module>miracle-framework-container-api</module>
+		<module>miracle-framework-container-spring</module>
+	</modules>
+</project>

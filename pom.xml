@@ -23,10 +23,14 @@
 	</properties>
 	
 	<modules>
-		<module>miracle-framework-base</module>
+		<!-- 
 		<module>miracle-framework-repository</module>
 		<module>miracle-framework-service</module>
 		<module>miracle-framework-webmvc</module>
+		 -->
+		
+		<module>miracle-framework-common</module>
+		<module>miracle-framework-container</module>
 	</modules>
 	
 	<dependencyManagement>
@@ -34,25 +38,25 @@
 			<dependency>
 				<groupId>com.miracle</groupId>
 				<artifactId>miracle-test-util</artifactId>
-				<version>${project.parent.version}</version>
+				<version>0.0.1</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.miracle</groupId>
 				<artifactId>miracle-test-database-repository</artifactId>
-				<version>${project.parent.version}</version>
+				<version>0.0.1</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.miracle</groupId>
 				<artifactId>miracle-test-service</artifactId>
-				<version>${project.parent.version}</version>
+				<version>0.0.1</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.miracle</groupId>
 				<artifactId>miracle-test-webmvc</artifactId>
-				<version>${project.parent.version}</version>
+				<version>0.0.1</version>
 				<scope>test</scope>
 			</dependency>
 		
@@ -85,7 +89,7 @@
 			<dependency>
 				<groupId>org.aspectj</groupId>
 				<artifactId>aspectjweaver</artifactId>
-				<version>1.7.4</version>
+				<version>1.8.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -190,6 +194,11 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
+				<version>1.7.5</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
 				<version>1.7.5</version>
 			</dependency>
 			<dependency>
