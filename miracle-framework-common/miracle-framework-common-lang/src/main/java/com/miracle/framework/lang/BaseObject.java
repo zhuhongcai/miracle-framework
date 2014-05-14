@@ -1,4 +1,4 @@
-package com.miracle.framework.common.core.lang;
+package com.miracle.framework.lang;
 
 import java.util.Arrays;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package com.miracle.framework.common.core.lang;
+package com.miracle.framework.lang;
 
 public final class Constants {
 	

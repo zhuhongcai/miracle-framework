@@ -1,4 +1,4 @@
-package com.miracle.framework.common.core.exception;
+package com.miracle.framework.exception;
 
 public abstract class SystemException extends RuntimeException {
 	

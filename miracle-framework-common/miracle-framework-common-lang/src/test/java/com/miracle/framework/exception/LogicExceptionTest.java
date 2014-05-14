@@ -1,10 +1,12 @@
-package com.miracle.framework.common.core.exception;
+package com.miracle.framework.exception;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+
+import com.miracle.framework.exception.fixture.TestLogicException;
 
 public final class LogicExceptionTest {
 	
@@ -16,19 +18,5 @@ public final class LogicExceptionTest {
 	@Test
 	public void useStringConstructor() {
 		assertThat(new TestLogicException("error message").getMessage(), is("error message"));
-	}
-	
-	private class TestLogicException extends LogicException {
-		
-		private static final long serialVersionUID = 7958467484863820692L;
-		
-		public TestLogicException() {
-			super();
-		}
-		
-		
-		public TestLogicException(final String message) {
-			super(message);
-		}
 	}
 }

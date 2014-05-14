@@ -1,6 +1,6 @@
 package com.miracle.framework.common.util.reflection;
 
-import com.miracle.framework.common.core.exception.SystemException;
+import com.miracle.framework.exception.SystemException;
 
 public class ReflectionException extends SystemException {
 	

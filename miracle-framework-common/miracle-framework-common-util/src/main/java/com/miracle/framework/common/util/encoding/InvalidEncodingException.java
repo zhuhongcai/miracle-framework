@@ -1,6 +1,6 @@
 package com.miracle.framework.common.util.encoding;
 
-import com.miracle.framework.common.core.exception.SystemException;
+import com.miracle.framework.exception.SystemException;
 
 public class InvalidEncodingException extends SystemException {
 

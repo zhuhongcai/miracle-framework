@@ -1,6 +1,6 @@
 package com.miracle.framework.repository.jpa.repository.exception;
 
-import com.miracle.framework.common.core.exception.UserException;
+import com.miracle.framework.exception.UserException;
 
 public abstract class DataAccessException extends UserException {
 	

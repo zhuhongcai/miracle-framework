@@ -1,4 +1,4 @@
-package com.miracle.framework.common.core.exception;
+package com.miracle.framework.exception;
 
 import com.google.common.base.Joiner;
 
