@@ -10,7 +10,7 @@
 	<name>${project.artifactId}</name>
 	
 	<modules>
-		<module>miracle-framework-common-core</module>
+		<module>miracle-framework-common-lang</module>
 		<module>miracle-framework-common-util</module>
 	</modules>
 </project>

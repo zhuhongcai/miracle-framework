@@ -11,7 +11,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.miracle</groupId>
-			<artifactId>miracle-framework-common-core</artifactId>
+			<artifactId>miracle-framework-common-lang</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>

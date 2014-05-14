@@ -5,7 +5,7 @@
 		<artifactId>miracle-framework-common</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>miracle-framework-common-core</artifactId>
+	<artifactId>miracle-framework-common-lang</artifactId>
 	<name>${project.artifactId}</name>
 	
 	<dependencies>

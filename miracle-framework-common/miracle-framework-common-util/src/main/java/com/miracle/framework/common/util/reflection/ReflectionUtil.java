@@ -1,6 +1,5 @@
 package com.miracle.framework.common.util.reflection;
 
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -10,8 +9,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.apache.commons.lang3.ClassUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 
 public final class ReflectionUtil {
 	
@@ -53,15 +50,19 @@ public final class ReflectionUtil {
 	}
 	
 	public static String[] getNullPropertyNames(final Object source) {
-		final BeanWrapper src = new BeanWrapperImpl(source);
-		PropertyDescriptor[] propertyDescriptors = src.getPropertyDescriptors();
-		Set<String> nullValueFieldNames = new HashSet<>();
-		for (PropertyDescriptor each : propertyDescriptors) {
-			Object value = src.getPropertyValue(each.getName());
+		Set<String> result = new HashSet<>();
+		for (Field each : getAllNonStaticFields(source.getClass())) {
+			each.setAccessible(true);
+			Object value = null;
+			try {
+				value = each.get(source);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				throw new ReflectionException(e.getMessage());
+			}
 			if (null == value) {
-				nullValueFieldNames.add(each.getName());
+				result.add(each.getName());
 			}
 		}
-		return nullValueFieldNames.toArray(new String[nullValueFieldNames.size()]);
+		return result.toArray(new String[result.size()]);
 	}
 }
