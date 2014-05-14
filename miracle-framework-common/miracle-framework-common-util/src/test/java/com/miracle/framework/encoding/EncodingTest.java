@@ -1,10 +1,13 @@
-package com.miracle.framework.common.util.encoding;
+package com.miracle.framework.encoding;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+
+import com.miracle.framework.encoding.Encoding;
+import com.miracle.framework.encoding.InvalidEncodingException;
 
 public final class EncodingTest {
 	

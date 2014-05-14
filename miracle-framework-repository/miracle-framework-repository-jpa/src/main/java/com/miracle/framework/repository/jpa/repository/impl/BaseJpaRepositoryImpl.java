@@ -9,7 +9,7 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.miracle.framework.common.util.reflection.ReflectionUtil;
+import com.miracle.framework.reflection.ReflectionUtil;
 import com.miracle.framework.repository.jpa.entity.OptimisticLockable;
 import com.miracle.framework.repository.jpa.repository.BaseJpaRepository;
 import com.miracle.framework.repository.jpa.repository.exception.OptimisticLockingException;

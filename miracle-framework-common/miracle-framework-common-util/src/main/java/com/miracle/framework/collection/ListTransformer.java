@@ -1,4 +1,4 @@
-package com.miracle.framework.common.util.collection;
+package com.miracle.framework.collection;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.apache.commons.lang3.ClassUtils;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.miracle.framework.common.util.encoding.Encoding;
+import com.miracle.framework.encoding.Encoding;
 
 public final class ListTransformer {
 	

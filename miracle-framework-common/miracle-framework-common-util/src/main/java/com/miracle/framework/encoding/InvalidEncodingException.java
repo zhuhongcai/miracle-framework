@@ -1,4 +1,4 @@
-package com.miracle.framework.common.util.encoding;
+package com.miracle.framework.encoding;
 
 import com.miracle.framework.exception.SystemException;
 

@@ -1,4 +1,4 @@
-package com.miracle.framework.common.util.reflection;
+package com.miracle.framework.reflection;
 
 import static com.miracle.test.asserts.ReflectionAssert.assertFieldNames;
 import static org.hamcrest.CoreMatchers.is;
@@ -11,6 +11,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import org.junit.Test;
+
+import com.miracle.framework.reflection.ReflectionException;
+import com.miracle.framework.reflection.ReflectionUtil;
 
 
 public final class ReflectionUtilTest {

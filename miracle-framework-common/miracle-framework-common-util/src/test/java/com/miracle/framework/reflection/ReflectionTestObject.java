@@ -1,4 +1,4 @@
-package com.miracle.framework.common.util.reflection;
+package com.miracle.framework.reflection;
 
 import java.util.Date;
 

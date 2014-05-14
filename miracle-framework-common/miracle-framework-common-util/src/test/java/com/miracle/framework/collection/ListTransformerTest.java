@@ -1,4 +1,4 @@
-package com.miracle.framework.common.util.collection;
+package com.miracle.framework.collection;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.miracle.framework.collection.ListTransformer;
 import com.miracle.test.enums.TestEnum;
 
 public final class ListTransformerTest {
