@@ -30,14 +30,17 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		
-	
 		<dependency>
 			<groupId>com.miracle</groupId>
 			<artifactId>miracle-test-util</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.miracle</groupId>
-			<artifactId>miracle-test-database-repository</artifactId>
+			<artifactId>miracle-test-repository-database</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>test</scope>
 		</dependency>
 		
 		<dependency>

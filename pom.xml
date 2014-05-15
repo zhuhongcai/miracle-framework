@@ -14,6 +14,7 @@
 		<!-- 
 		<module>miracle-framework-webmvc</module>
 		 -->
+		<module>miracle-test</module>
 	</modules>
 	
 	<properties>

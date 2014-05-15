@@ -3,7 +3,9 @@ package com.miracle.framework.webmvc.vo;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public final class Feedbacks {
+import com.miracle.framework.lang.BaseObject;
+
+public final class Feedbacks extends BaseObject {
 	
 	private final Collection<Feedback> feedbacks = new ArrayList<>();
 	

@@ -1,11 +1,14 @@
 package com.miracle.framework.webmvc.vo;
 
-import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+import java.util.Collection;
 
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-import com.miracle.framework.repository.exception.PrimaryKeyNotFoundException;
+import com.miracle.framework.repository.jpa.repository.exception.PrimaryKeyNotFoundException;
 
 public final class FeedbacksTest {
 	
@@ -16,7 +19,7 @@ public final class FeedbacksTest {
 		Feedback actualFeedback2 = new Feedback("test.code.2", "invalid data 2");
 		actual.addFeedback(actualFeedback1);
 		actual.addFeedback(actualFeedback2);
-		assertReflectionEquals(Lists.newArrayList(actualFeedback1, actualFeedback2), actual.getFeedbacks());
+		assertThat(actual.getFeedbacks(), is((Collection<Feedback>) Lists.newArrayList(actualFeedback1, actualFeedback2)));
 	}
 	
 	@Test
@@ -28,6 +31,6 @@ public final class FeedbacksTest {
 		Feedback actualFeedback2 = new Feedback(ex2.getErrorCode(), ex2.getArguments());
 		actual.addFeedback(actualFeedback1);
 		actual.addFeedback(actualFeedback2);
-		assertReflectionEquals(Lists.newArrayList(actualFeedback1, actualFeedback2), actual.getFeedbacks());
+		assertThat(actual.getFeedbacks(), is((Collection<Feedback>) Lists.newArrayList(actualFeedback1, actualFeedback2)));
 	}
 }

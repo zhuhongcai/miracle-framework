@@ -19,7 +19,7 @@ public class ApiDataNotFoundErrorHandlerTest extends AbstractApiControllerContex
 				.andExpect(status().isNotFound())
 				.andExpect(content().contentType("application/json;charset=UTF-8"))
 				.andExpect(jsonPath("$.feedbacks", hasSize(1)))
-				.andExpect(jsonPath("$.feedbacks[0].code", is("com.miraclesea.framework.dao.exception.PrimaryKeyNotFoundException")))
+				.andExpect(jsonPath("$.feedbacks[0].code", is("com.miracle.framework.repository.jpa.repository.exception.PrimaryKeyNotFoundException")))
 				.andExpect(jsonPath("$.feedbacks[0].message", is("Object,1")));
 	}
 }

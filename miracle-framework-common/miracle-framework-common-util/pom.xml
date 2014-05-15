@@ -18,6 +18,8 @@
 		<dependency>
 			<groupId>com.miracle</groupId>
 			<artifactId>miracle-test-util</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>test</scope>
 		</dependency>
 		
 		<dependency>

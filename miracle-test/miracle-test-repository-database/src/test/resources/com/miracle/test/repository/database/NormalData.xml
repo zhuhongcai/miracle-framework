@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<foo id="1" number="1" value="AAA" />
+	<foo id="2" number="2" value="BBB" />
+	<foo id="3" number="3" value="CCC" />
+</dataset>

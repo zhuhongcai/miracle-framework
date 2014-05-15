@@ -6,7 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.miracle.framework.repository.exception.DataIntegrityViolationException;
+import com.miracle.framework.repository.jpa.repository.exception.DataIntegrityViolationException;
 import com.miracle.test.webmvc.util.BindingResultBuilder;
 
 @Controller
