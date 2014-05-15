@@ -1,12 +1,12 @@
-package com.miracle.framework.repository.jpa.repository.exception;
+package com.miracle.framework.repository.jpa.exception;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import com.miracle.framework.repository.jpa.entity.TestEntity;
-import com.miracle.framework.repository.jpa.repository.exception.OptimisticLockingException;
+import com.miracle.framework.repository.jpa.exception.OptimisticLockingException;
+import com.miracle.framework.repository.jpa.repository.fixture.entity.TestEntity;
 
 public final class OptimisticLockingExceptionTest {
 	

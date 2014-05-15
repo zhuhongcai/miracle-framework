@@ -8,7 +8,7 @@ import java.util.Collection;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-import com.miracle.framework.repository.jpa.repository.exception.PrimaryKeyNotFoundException;
+import com.miracle.framework.repository.jpa.exception.PrimaryKeyNotFoundException;
 
 public final class FeedbacksTest {
 	

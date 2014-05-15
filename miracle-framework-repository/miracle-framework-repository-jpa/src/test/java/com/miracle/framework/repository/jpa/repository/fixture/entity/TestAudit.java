@@ -1,7 +1,9 @@
-package com.miracle.framework.repository.jpa.entity;
+package com.miracle.framework.repository.jpa.repository.fixture.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import com.miracle.framework.repository.jpa.entity.BaseOptimisticLockAuditable;
 
 @Entity
 @Table(name = "test_audit")

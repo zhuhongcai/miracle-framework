@@ -1,4 +1,4 @@
-package com.miracle.framework.repository.jpa.entity;
+package com.miracle.framework.repository.jpa.repository.fixture.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -9,6 +9,8 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
+
+import com.miracle.framework.repository.jpa.entity.BaseOptimisticLockAuditable;
 
 @Data
 @EqualsAndHashCode(callSuper = false)

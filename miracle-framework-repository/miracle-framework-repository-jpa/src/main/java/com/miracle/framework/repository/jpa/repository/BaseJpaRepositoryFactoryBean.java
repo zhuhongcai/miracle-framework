@@ -13,8 +13,7 @@ import org.springframework.data.repository.core.support.RepositoryFactorySupport
 
 import com.miracle.framework.repository.jpa.repository.impl.BaseJpaRepositoryImpl;
 
-public final class BaseJpaRepositoryFactoryBean<R extends JpaRepository<T , I>, T extends AbstractPersistable<I>, I extends Serializable> 
-																extends JpaRepositoryFactoryBean<R, T, I> {
+public final class BaseJpaRepositoryFactoryBean<R extends JpaRepository<T , I>, T extends AbstractPersistable<I>, I extends Serializable> extends JpaRepositoryFactoryBean<R, T, I> {
 	
 	@Override
 	protected RepositoryFactorySupport createRepositoryFactory(final EntityManager entityManager) {

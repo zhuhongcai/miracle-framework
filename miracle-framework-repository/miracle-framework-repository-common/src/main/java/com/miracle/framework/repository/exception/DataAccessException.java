@@ -1,4 +1,4 @@
-package com.miracle.framework.repository.jpa.repository.exception;
+package com.miracle.framework.repository.exception;
 
 import com.miracle.framework.exception.UserException;
 

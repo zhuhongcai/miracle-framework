@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.miracle.framework.repository.jpa.repository.exception.DataIntegrityViolationException;
+import com.miracle.framework.repository.jpa.exception.DataIntegrityViolationException;
 import com.miracle.framework.webmvc.vo.Feedback;
 import com.miracle.framework.webmvc.vo.Feedbacks;
 

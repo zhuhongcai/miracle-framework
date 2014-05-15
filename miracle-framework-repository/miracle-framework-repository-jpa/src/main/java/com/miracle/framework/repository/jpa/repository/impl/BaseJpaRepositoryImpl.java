@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.miracle.framework.reflection.ReflectionUtil;
 import com.miracle.framework.repository.jpa.entity.OptimisticLockable;
+import com.miracle.framework.repository.jpa.exception.OptimisticLockingException;
+import com.miracle.framework.repository.jpa.exception.PrimaryKeyNotFoundException;
 import com.miracle.framework.repository.jpa.repository.BaseJpaRepository;
-import com.miracle.framework.repository.jpa.repository.exception.OptimisticLockingException;
-import com.miracle.framework.repository.jpa.repository.exception.PrimaryKeyNotFoundException;
 
 @Transactional(readOnly = true)
 public final class BaseJpaRepositoryImpl<E extends Persistable<I>, I extends Serializable> extends SimpleJpaRepository<E, I> implements BaseJpaRepository<E, I> {

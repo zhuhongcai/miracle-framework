@@ -1,4 +1,6 @@
-package com.miracle.framework.repository.jpa.repository.exception;
+package com.miracle.framework.repository.jpa.exception;
+
+import com.miracle.framework.repository.exception.DataAccessException;
 
 public abstract class DataIntegrityViolationException extends DataAccessException {
 	

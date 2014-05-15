@@ -29,6 +29,11 @@
 			<artifactId>miracle-framework-container-spring</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.miracle</groupId>
+			<artifactId>miracle-framework-repository-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 		
 		<dependency>
 			<groupId>com.miracle</groupId>

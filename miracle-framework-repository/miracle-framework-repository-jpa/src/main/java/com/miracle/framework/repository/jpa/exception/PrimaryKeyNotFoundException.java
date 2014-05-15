@@ -1,6 +1,8 @@
-package com.miracle.framework.repository.jpa.repository.exception;
+package com.miracle.framework.repository.jpa.exception;
 
 import java.io.Serializable;
+
+import com.miracle.framework.repository.exception.DataAccessException;
 
 public final class PrimaryKeyNotFoundException extends DataAccessException {
 

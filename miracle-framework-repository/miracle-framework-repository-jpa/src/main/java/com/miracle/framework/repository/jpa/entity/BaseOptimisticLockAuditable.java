@@ -64,7 +64,7 @@ public abstract class BaseOptimisticLockAuditable<U> extends BasePersistable imp
 	public final void setLastModifiedBy(final U lastModifiedBy) {
 		this.lastModifiedBy = lastModifiedBy;
 	}
-
+	
 	public final DateTime getLastModifiedDate() {
 		return null == lastModifiedDate ? null : new DateTime(lastModifiedDate);
 	}

@@ -9,10 +9,10 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.domain.Persistable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.miracle.framework.repository.entity.PersistableEntity;
 
 @MappedSuperclass
-public abstract class BasePersistable implements Persistable<String> {
+public abstract class BasePersistable implements PersistableEntity, Persistable<String> {
 	
 	private static final long serialVersionUID = -4968591878907824618L;
 	
@@ -32,7 +32,6 @@ public abstract class BasePersistable implements Persistable<String> {
 	
 	@Override
 	@Transient
-	@JsonIgnore
 	public final boolean isNew() {
 		return null == getId();
 	}

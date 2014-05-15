@@ -2,15 +2,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.miracle</groupId>
-		<artifactId>miracle-framework</artifactId>
+		<artifactId>miracle-framework-repository</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>miracle-framework-repository</artifactId>
-	<packaging>pom</packaging>
+	<artifactId>miracle-framework-repository-common</artifactId>
 	<name>${project.artifactId}</name>
 	
-	<modules>
-		<module>miracle-framework-repository-common</module>
-		<module>miracle-framework-repository-jpa</module>
-	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>com.miracle</groupId>
+			<artifactId>miracle-framework-common-lang</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+	</dependencies>
 </project>
