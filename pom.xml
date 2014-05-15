@@ -11,9 +11,7 @@
 		<module>miracle-framework-container</module>
 		<module>miracle-framework-repository</module>
 		<module>miracle-framework-service</module>
-		<!-- 
 		<module>miracle-framework-webmvc</module>
-		 -->
 		<module>miracle-test</module>
 	</modules>
 	
@@ -47,8 +45,8 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.miracle</groupId>
-				<artifactId>miracle-dependency-main</artifactId>
-				<version>${miracle-dependency.version}</version>
+				<artifactId>miracle-lib-dependency</artifactId>
+				<version>0.0.1</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
