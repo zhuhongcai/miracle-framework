@@ -1,6 +1,6 @@
-package com.miracle.framework.repository.jpa.repository.fixture.repository;
+package com.miracle.framework.repository.jpa.fixture.repository;
 
+import com.miracle.framework.repository.jpa.fixture.entity.TestEntity;
 import com.miracle.framework.repository.jpa.repository.BaseJpaRepository;
-import com.miracle.framework.repository.jpa.repository.fixture.entity.TestEntity;
 
 public interface TestEntityRepository extends BaseJpaRepository<TestEntity, String> { }

@@ -1,4 +1,4 @@
-package com.miracle.framework.repository.jpa.repository.fixture.entity;
+package com.miracle.framework.repository.jpa.fixture.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

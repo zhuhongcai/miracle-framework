@@ -14,8 +14,8 @@ import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import com.miracle.framework.repository.jpa.exception.OptimisticLockingException;
 import com.miracle.framework.repository.jpa.exception.PrimaryKeyNotFoundException;
-import com.miracle.framework.repository.jpa.repository.fixture.entity.TestEntity;
-import com.miracle.framework.repository.jpa.repository.fixture.repository.TestEntityRepository;
+import com.miracle.framework.repository.jpa.fixture.entity.TestEntity;
+import com.miracle.framework.repository.jpa.fixture.repository.TestEntityRepository;
 import com.miracle.test.repository.database.AbstractDatabaseRepositoryContextTests;
 
 public final class BaseJpaRepositoryTest extends AbstractDatabaseRepositoryContextTests {

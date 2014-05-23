@@ -6,7 +6,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import com.miracle.framework.repository.jpa.exception.OptimisticLockingException;
-import com.miracle.framework.repository.jpa.repository.fixture.entity.TestEntity;
+import com.miracle.framework.repository.jpa.fixture.entity.TestEntity;
 
 public final class OptimisticLockingExceptionTest {
 	
