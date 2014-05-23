@@ -1,18 +1,19 @@
 package com.miracle.framework.container.spring;
 
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.miracle.framework.container.Container;
 
 public final class SpringContainer implements Container {
 	
-	private final String springConfigFile = "classpath:META-INF/spring/internal/root/applicationContext.xml";
+	public final static String CONFIG_FILE = "classpath:META-INF/spring/internal/root/applicationContext.xml";
 	
 	private SpringContext springContext;
 	
 	@Override
 	public void start() {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(springConfigFile);
+		AbstractApplicationContext context = new ClassPathXmlApplicationContext(CONFIG_FILE);
 		springContext = new SpringContext(context);
 		context.start();
 	}

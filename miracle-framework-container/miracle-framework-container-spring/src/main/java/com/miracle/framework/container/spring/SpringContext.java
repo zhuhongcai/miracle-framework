@@ -1,19 +1,19 @@
 package com.miracle.framework.container.spring;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 
 import com.miracle.framework.container.Context;
 
-public final class SpringContext implements Context<ClassPathXmlApplicationContext> {
+public final class SpringContext implements Context<AbstractApplicationContext> {
 	
-	private final ClassPathXmlApplicationContext applicationContext;
+	private final AbstractApplicationContext applicationContext;
 	
-	public SpringContext(final ClassPathXmlApplicationContext applicationContext) {
+	public SpringContext(final AbstractApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
 	
 	@Override
-	public ClassPathXmlApplicationContext get() {
+	public AbstractApplicationContext get() {
 		return applicationContext;
 	}
 

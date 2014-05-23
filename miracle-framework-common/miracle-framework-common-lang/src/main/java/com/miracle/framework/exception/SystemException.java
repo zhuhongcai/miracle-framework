@@ -11,5 +11,8 @@ public abstract class SystemException extends RuntimeException {
 	protected SystemException(final String errorMessage, final Exception cause, final Object... args) {
 		super(String.format(errorMessage, args), cause);
 	}
-
+	
+	protected SystemException(final Exception cause) {
+		super(cause.getMessage(), cause);
+	}
 }

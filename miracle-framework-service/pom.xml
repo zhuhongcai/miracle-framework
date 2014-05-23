@@ -19,6 +19,11 @@
 			<artifactId>miracle-framework-repository-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.miracle</groupId>
+			<artifactId>miracle-framework-repository-jpa</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework</groupId>

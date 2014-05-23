@@ -24,4 +24,11 @@ public final class SystemExceptionTest {
 		assertThat(systemException.getMessage(), is("error message is: 'details...'"));
 		assertThat(systemException.getCause(), instanceOf(RuntimeException.class));
 	}
+	
+	@Test
+	public void useConstructorOnlyCause() {
+		TestSystemException systemException = new TestSystemException(new RuntimeException("This is an exception."));
+		assertThat(systemException.getMessage(), is("This is an exception."));
+		assertThat(systemException.getCause(), instanceOf(RuntimeException.class));
+	}
 }

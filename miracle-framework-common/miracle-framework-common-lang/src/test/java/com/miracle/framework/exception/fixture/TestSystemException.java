@@ -13,4 +13,8 @@ public final class TestSystemException extends SystemException {
 	public TestSystemException(final String errorMessage, final Exception cause, final Object... args) {
 		super(errorMessage, cause, args);
 	}
+	
+	public TestSystemException(final Exception cause) {
+		super(cause);
+	}
 }
