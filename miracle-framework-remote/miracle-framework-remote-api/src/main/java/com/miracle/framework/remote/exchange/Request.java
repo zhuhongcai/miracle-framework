@@ -14,7 +14,7 @@ public final class Request implements Serializable {
 	private final String method;
 	private final Object[] parameters;
 	
-	public Request(Class<?> apiClass, String method, Object... parameters) {
+	public Request(final Class<?> apiClass, final String method, final Object... parameters) {
 		messageId = System.nanoTime();
 		this.apiClass = apiClass;
 		this.method = method;

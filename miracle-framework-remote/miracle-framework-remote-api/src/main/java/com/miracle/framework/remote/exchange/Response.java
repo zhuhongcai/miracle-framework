@@ -3,10 +3,8 @@ package com.miracle.framework.remote.exchange;
 import java.io.Serializable;
 
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
-@ToString
 public final class Response implements Serializable {
 	
 	private static final long serialVersionUID = 5887232731148682128L;

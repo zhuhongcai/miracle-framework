@@ -24,7 +24,7 @@ public class NettyClient implements Client {
 	private int workerGroupThreads;
 	
 	@Resource
-	private NettyClientChannelInitializer cilentChannelInitializer;
+	private NettyClientChannelInitializer clientChannelInitializer;
 	
 	private EventLoopGroup workerGroup;
 	private Channel channel;
@@ -38,14 +38,14 @@ public class NettyClient implements Client {
 			.channel(NioSocketChannel.class)
 			.option(ChannelOption.SO_KEEPALIVE, true)
 			.option(ChannelOption.TCP_NODELAY, true)
-			.handler(cilentChannelInitializer);
+			.handler(clientChannelInitializer);
 		channel = bootstrap.connect(ip, port).syncUninterruptibly().channel();
 	}
 	
 	@Override
 	public Response sent(final Request request) {
 		channel.writeAndFlush(request);
-		return cilentChannelInitializer.getResponse(request.getMessageId());
+		return clientChannelInitializer.getResponse(request.getMessageId());
 	}
 	
 	@Override

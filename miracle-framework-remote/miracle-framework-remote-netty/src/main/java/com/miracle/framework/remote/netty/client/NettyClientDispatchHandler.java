@@ -12,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.springframework.stereotype.Component;
 
-import com.miracle.framework.remote.client.exception.CilentException;
+import com.miracle.framework.remote.client.exception.ClientException;
 import com.miracle.framework.remote.exchange.Request;
 import com.miracle.framework.remote.exchange.Response;
 import com.miracle.framework.remote.server.Server;
@@ -47,7 +47,7 @@ public class NettyClientDispatchHandler extends SimpleChannelInboundHandler<Resp
 				result = getSystemMessage();
 			}
 		} catch (final InterruptedException ex) {
-			throw new CilentException(ex);
+			throw new ClientException(ex);
 		} finally {
 			responseMap.remove(messageId);
 		}
@@ -58,7 +58,7 @@ public class NettyClientDispatchHandler extends SimpleChannelInboundHandler<Resp
 		try {
 			return responseMap.get(Server.SYSTEM_MESSAGE_ID).poll(5, SECONDS);
 		} catch (final InterruptedException ex) {
-			throw new CilentException(ex);
+			throw new ClientException(ex);
 		}
 	}
 }
