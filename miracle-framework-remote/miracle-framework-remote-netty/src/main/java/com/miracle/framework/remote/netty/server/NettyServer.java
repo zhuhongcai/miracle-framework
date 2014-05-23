@@ -49,14 +49,14 @@ public class NettyServer implements Server {
 			.childHandler(serverChannelInitializer);
 		try {
 			channel = serverBootstrap.bind(port).sync().channel();
-		} catch (InterruptedException ex) {
-			throw new ServerException(-1, ex);
+		} catch (final InterruptedException ex) {
+			throw new ServerException(Server.SYSTEM_MESSAGE_ID, ex);
 		}
 	}
 	
 	@Override
 	public void stop() {
-		if (null == bossGroup || null == workerGroup || null == channel) {
+		if (null == channel) {
 			throw new ServerStopException();
 		}
 		bossGroup.shutdownGracefully();

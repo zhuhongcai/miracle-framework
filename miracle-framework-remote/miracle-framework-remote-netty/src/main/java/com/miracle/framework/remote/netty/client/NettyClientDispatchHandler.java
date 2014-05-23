@@ -1,5 +1,6 @@
 package com.miracle.framework.remote.netty.client;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
@@ -11,8 +12,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.springframework.stereotype.Component;
 
+import com.miracle.framework.remote.client.exception.CilentException;
 import com.miracle.framework.remote.exchange.Request;
 import com.miracle.framework.remote.exchange.Response;
+import com.miracle.framework.remote.server.Server;
 
 @Component
 @Sharable
@@ -35,8 +38,27 @@ public class NettyClientDispatchHandler extends SimpleChannelInboundHandler<Resp
 		queue.add(response);
 	}
 	
-	public BlockingQueue<Response> getResponseQueue(final long messageId) {
+	public Response getResponse(final long messageId) {
+		Response result;
 		responseMap.putIfAbsent(messageId, new LinkedBlockingQueue<Response>(1));
-		return responseMap.get(messageId);
+		try {
+			result = responseMap.get(messageId).take();
+			if (null == result) {
+				result = getSystemMessage();
+			}
+		} catch (final InterruptedException ex) {
+			throw new CilentException(ex);
+		} finally {
+			responseMap.remove(messageId);
+		}
+		return result;
+	}
+	
+	private Response getSystemMessage() {
+		try {
+			return responseMap.get(Server.SYSTEM_MESSAGE_ID).poll(5, SECONDS);
+		} catch (final InterruptedException ex) {
+			throw new CilentException(ex);
+		}
 	}
 }

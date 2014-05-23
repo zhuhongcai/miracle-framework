@@ -1,6 +1,5 @@
 package com.miracle.framework.remote.netty.client;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
@@ -8,28 +7,21 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-import java.util.concurrent.BlockingQueue;
-
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.miracle.framework.remote.client.Client;
-import com.miracle.framework.remote.client.exception.CilentException;
 import com.miracle.framework.remote.client.exception.ClientCloseException;
 import com.miracle.framework.remote.exchange.Request;
 import com.miracle.framework.remote.exchange.Response;
-import com.miracle.framework.remote.server.exception.ServerTimeoutException;
 
 @Component
 public class NettyClient implements Client {
 	
 	@Value("${client.worker.group.threads}")
 	private int workerGroupThreads;
-	
-	@Value("${client.timeout.seconds}")
-	private int timeoutSeconds;
 	
 	@Resource
 	private NettyClientChannelInitializer cilentChannelInitializer;
@@ -53,22 +45,12 @@ public class NettyClient implements Client {
 	@Override
 	public Response sent(final Request request) {
 		channel.writeAndFlush(request);
-		BlockingQueue<Response> responseQueue = cilentChannelInitializer.getResponseQueue(request.getMessageId());
-		Response result;
-		try {
-			result = responseQueue.poll(timeoutSeconds, SECONDS);
-		} catch (InterruptedException ex) {
-			throw new CilentException(ex);
-		}
-		if (null == result) {
-			throw new ServerTimeoutException(timeoutSeconds);
-		}
-		return result;
+		return cilentChannelInitializer.getResponse(request.getMessageId());
 	}
 	
 	@Override
 	public void close() {
-		if (null == channel || null == workerGroup) {
+		if (null == channel) {
 			throw new ClientCloseException();
 		}
 		workerGroup.shutdownGracefully();

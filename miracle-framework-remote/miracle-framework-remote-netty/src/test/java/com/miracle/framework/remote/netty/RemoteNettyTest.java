@@ -1,14 +1,13 @@
 package com.miracle.framework.remote.netty;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static com.miracle.framework.remote.netty.asserter.FooResponseAssert.assertCauseException;
+import static com.miracle.framework.remote.netty.asserter.FooResponseAssert.assertException;
+import static com.miracle.framework.remote.netty.asserter.FooResponseAssert.assertHasReturnValue;
+import static com.miracle.framework.remote.netty.asserter.FooResponseAssert.assertNoReturnValue;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import javax.annotation.Resource;
 
@@ -26,7 +25,6 @@ import com.miracle.framework.remote.netty.fixture.model.Foo;
 import com.miracle.framework.remote.netty.fixture.service.FooService;
 import com.miracle.framework.remote.netty.server.NettyServer;
 import com.miracle.framework.remote.server.exception.ServerException;
-import com.miracle.framework.remote.server.exception.ServerTimeoutException;
 
 @ContextConfiguration(locations = SpringContainer.CONFIG_FILE)
 public final class RemoteNettyTest extends AbstractJUnit4SpringContextTests {
@@ -57,48 +55,44 @@ public final class RemoteNettyTest extends AbstractJUnit4SpringContextTests {
 	@Test
 	public void cannotFoundMethod() {
 		Response response = nettyClient.sent(new Request(FooService.class, "notExist"));
-		assertThat(response.getReturnValue(), nullValue());
-		assertThat(response.getException().getCause(), instanceOf(ReflectiveOperationException.class));
+		assertCauseException(response, ReflectiveOperationException.class);
 	}
 	
 	@Test
 	public void update() {
 		Response response = nettyClient.sent(new Request(FooService.class, "update", new Foo("bar")));
-		assertThat(response.getReturnValue(), nullValue());
-		assertThat(response.getException(), nullValue());
+		assertNoReturnValue(response);
 	}
 	
 	@Test
 	public void queryForSync() {
 		for (int i = 0;i < 100;i++) {
 			Response response = nettyClient.sent(new Request(FooService.class, "query", "bar" + i));
-			assertThat(((Foo) response.getReturnValue()).getBar(), is("bar" + i));
-			assertThat(response.getException(), nullValue());
+			assertHasReturnValue(response, "bar" + i);
+		}
+	}
+	
+	@Test
+	public void queryForAsync() throws InterruptedException, ExecutionException {
+		ExecutorService executorService = Executors.newFixedThreadPool(30);
+		for (int i = 0;i < 100;i++) {
+			Response response = executorService.submit(new AsyncQueryCallable(nettyClient, "bar" + i)).get();
+			assertHasReturnValue(response, "bar" + i);
 		}
 	}
 	
 	@Test
 	public void queryWithSystemException() {
 		Response response = nettyClient.sent(new Request(FooService.class, "queryWithSystemException", "bar"));
-		assertThat(response.getReturnValue(), nullValue());
-		assertThat(response.getException(), instanceOf(ServerException.class));
-	}
-	
-	@Test(expected = ServerTimeoutException.class)
-	public void querySlow() {
-		Response response = nettyClient.sent(new Request(FooService.class, "querySlow", "bar"));
-		assertThat(((Foo) response.getReturnValue()).getBar(), is("bar"));
-		assertThat(response.getException(), nullValue());
+		assertException(response, ServerException.class);
 	}
 	
 	@Test
-	public void queryForAsync() throws InterruptedException, ExecutionException {
+	public void queryMix() throws InterruptedException, ExecutionException {
 		ExecutorService executorService = Executors.newFixedThreadPool(2);
-		Future<Response> futrue1 = executorService.submit(new AsyncQueryCallable(nettyClient, "slow"));
-		Future<Response> futrue2 = executorService.submit(new AsyncQueryCallable(nettyClient, "normal"));
-		assertThat(((Foo) futrue1.get().getReturnValue()).getBar(), is("slow"));
-		assertThat(futrue1.get().getException(), nullValue());
-		assertThat(((Foo) futrue2.get().getReturnValue()).getBar(), is("normal"));
-		assertThat(futrue2.get().getException(), nullValue());
+		Response normalQueryResponse = executorService.submit(new AsyncQueryCallable(nettyClient, "normal")).get();
+		Response slowQueryResponse = executorService.submit(new AsyncQueryCallable(nettyClient, "slow")).get();
+		assertHasReturnValue(slowQueryResponse, "slow");
+		assertHasReturnValue(normalQueryResponse, "normal");
 	}
 }

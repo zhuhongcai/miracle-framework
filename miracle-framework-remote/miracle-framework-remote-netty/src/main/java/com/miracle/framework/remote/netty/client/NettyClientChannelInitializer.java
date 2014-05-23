@@ -6,8 +6,6 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
-import java.util.concurrent.BlockingQueue;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
@@ -27,7 +25,7 @@ public class NettyClientChannelInitializer extends ChannelInitializer<SocketChan
 		ch.pipeline().addLast(clientDispatchHandler);
 	}
 	
-	public BlockingQueue<Response> getResponseQueue(final long messageId) {
-		return clientDispatchHandler.getResponseQueue(messageId);
+	public Response getResponse(final long messageId) {
+		return clientDispatchHandler.getResponse(messageId);
 	}
 }

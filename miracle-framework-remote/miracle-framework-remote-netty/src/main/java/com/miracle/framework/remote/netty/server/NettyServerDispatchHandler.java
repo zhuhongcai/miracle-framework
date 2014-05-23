@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.miracle.framework.exception.SystemException;
 import com.miracle.framework.remote.exchange.Request;
 import com.miracle.framework.remote.exchange.Response;
+import com.miracle.framework.remote.server.Server;
 import com.miracle.framework.remote.server.exception.ServerException;
 
 @Component
@@ -25,13 +26,7 @@ public class NettyServerDispatchHandler extends SimpleChannelInboundHandler<Requ
 	@Override
 	protected void messageReceived(final ChannelHandlerContext ctx, final Request request) {
 		Object returnValue = execute(request);
-		Response response;
-		if (null == returnValue || Void.class.equals(returnValue.getClass())) {
-			response = new Response(request.getMessageId(), null);
-		} else {
-			response = new Response(request.getMessageId(), returnValue);
-		}
-		ctx.writeAndFlush(response);
+		ctx.writeAndFlush(new Response(request.getMessageId(), returnValue));
 	}
 	
 	private Object execute(final Request request) {
@@ -62,7 +57,7 @@ public class NettyServerDispatchHandler extends SimpleChannelInboundHandler<Requ
 		if (cause instanceof ServerException) {
 			response = new Response(((ServerException) cause).getMessageId(), cause);
 		} else {
-			response = new Response(-1L, cause);
+			response = new Response(Server.SYSTEM_MESSAGE_ID, cause);
 		}
 		ctx.writeAndFlush(response);
 	}

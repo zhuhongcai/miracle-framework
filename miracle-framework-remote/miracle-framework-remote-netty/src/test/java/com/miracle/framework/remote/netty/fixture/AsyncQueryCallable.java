@@ -21,5 +21,4 @@ public final class AsyncQueryCallable implements Callable<Response> {
 	public Response call() throws Exception {
 		return nettyClient.sent(new Request(FooService.class, "query", queryString));
 	}
-
 }
