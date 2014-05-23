@@ -11,7 +11,7 @@ public final class ServerException extends SystemException {
 	@Getter
 	private final long messageId;
 	
-	public ServerException(final long messageId, Exception cause) {
+	public ServerException(final long messageId, final Exception cause) {
 		super(cause);
 		this.messageId = messageId;
 	}

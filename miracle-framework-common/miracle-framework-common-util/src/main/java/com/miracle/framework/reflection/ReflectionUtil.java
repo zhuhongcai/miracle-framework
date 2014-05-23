@@ -56,7 +56,7 @@ public final class ReflectionUtil {
 			Object value = null;
 			try {
 				value = each.get(source);
-			} catch (IllegalArgumentException | IllegalAccessException e) {
+			} catch (final IllegalArgumentException | IllegalAccessException e) {
 				throw new ReflectionException(e.getMessage());
 			}
 			if (null == value) {

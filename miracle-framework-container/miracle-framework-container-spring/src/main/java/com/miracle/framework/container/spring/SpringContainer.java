@@ -7,7 +7,7 @@ import com.miracle.framework.container.Container;
 
 public final class SpringContainer implements Container {
 	
-	public final static String CONFIG_FILE = "classpath:META-INF/spring/internal/root/applicationContext.xml";
+	public static final String CONFIG_FILE = "classpath:META-INF/spring/internal/root/applicationContext.xml";
 	
 	private SpringContext springContext;
 	

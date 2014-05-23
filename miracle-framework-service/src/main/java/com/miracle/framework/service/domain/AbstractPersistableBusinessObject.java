@@ -9,7 +9,7 @@ public abstract class AbstractPersistableBusinessObject<T extends PersistableEnt
 	
 	private final Class<T> persistableEntityClass;
 	
-	protected AbstractPersistableBusinessObject(Class<T> persistableEntityClass) {
+	protected AbstractPersistableBusinessObject(final Class<T> persistableEntityClass) {
 		this.persistableEntityClass = persistableEntityClass;
 	}
 	
@@ -20,11 +20,11 @@ public abstract class AbstractPersistableBusinessObject<T extends PersistableEnt
 		return result;
 	}
 	
-	public final void fillFrom(T persistableEntity) {
+	public final void fillFrom(final T persistableEntity) {
 		BeanUtils.copyProperties(persistableEntity, this);
 		customizeFill(persistableEntity);
 	}
 	
-	protected abstract void customizeConvert( T persistableEntity);
+	protected abstract void customizeConvert(T persistableEntity);
 	protected abstract void customizeFill(T persistableEntity);
 }

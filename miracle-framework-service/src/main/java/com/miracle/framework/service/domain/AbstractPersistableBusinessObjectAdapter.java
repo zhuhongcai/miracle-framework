@@ -4,10 +4,10 @@ import com.miracle.framework.repository.entity.PersistableEntity;
 
 public abstract class AbstractPersistableBusinessObjectAdapter<T extends PersistableEntity> extends AbstractPersistableBusinessObject<T> {
 	
-	protected AbstractPersistableBusinessObjectAdapter(Class<T> persistableEntityClass) {
+	protected AbstractPersistableBusinessObjectAdapter(final Class<T> persistableEntityClass) {
 		super(persistableEntityClass);
 	}
 	
-	protected void customizeConvert( T persistableEntity) { }
-	protected void customizeFill(T persistableEntity) { }
+	protected void customizeConvert(final T persistableEntity) { }
+	protected void customizeFill(final T persistableEntity) { }
 }

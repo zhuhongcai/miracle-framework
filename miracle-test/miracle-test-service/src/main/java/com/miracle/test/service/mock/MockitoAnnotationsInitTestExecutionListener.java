@@ -7,7 +7,7 @@ import org.springframework.test.context.support.AbstractTestExecutionListener;
 public final class MockitoAnnotationsInitTestExecutionListener extends AbstractTestExecutionListener {
 	
 	@Override
-	public void prepareTestInstance(TestContext testContext) {
+	public void prepareTestInstance(final TestContext testContext) {
 		MockitoAnnotations.initMocks(testContext.getTestInstance());
 	}
 }
