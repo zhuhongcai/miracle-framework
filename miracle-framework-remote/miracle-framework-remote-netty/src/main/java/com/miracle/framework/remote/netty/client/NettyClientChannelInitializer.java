@@ -27,7 +27,7 @@ public class NettyClientChannelInitializer extends ChannelInitializer<SocketChan
 		ch.pipeline().addLast(clientDispatchHandler);
 	}
 	
-	public BlockingQueue<Response> getResponseQueue() {
-		return clientDispatchHandler.getResponseQueue();
+	public BlockingQueue<Response> getResponseQueue(final long messageId) {
+		return clientDispatchHandler.getResponseQueue(messageId);
 	}
 }

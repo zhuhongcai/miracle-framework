@@ -25,13 +25,13 @@ public class FooServiceImpl implements FooService {
 	}
 	
 	@Override
-	public Foo querySlow(final String bar) throws InterruptedException {
-		Thread.sleep(timeoutSeconds * 1000L + 1000L);
-		return new Foo(bar);
+	public Foo queryWithSystemException(final String bar) {
+		throw new FooSystemException();
 	}
 	
 	@Override
-	public Foo queryWithSystemException(final String bar) {
-		throw new FooSystemException();
+	public Foo querySlow(final String bar) throws InterruptedException {
+		Thread.sleep(timeoutSeconds * 1000L + 1000L);
+		return new Foo(bar);
 	}
 }

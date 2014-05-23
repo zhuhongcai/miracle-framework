@@ -53,7 +53,7 @@ public class NettyClient implements Client {
 	@Override
 	public Response sent(final Request request) {
 		channel.writeAndFlush(request);
-		BlockingQueue<Response> responseQueue = cilentChannelInitializer.getResponseQueue();
+		BlockingQueue<Response> responseQueue = cilentChannelInitializer.getResponseQueue(request.getMessageId());
 		Response result;
 		try {
 			result = responseQueue.poll(timeoutSeconds, SECONDS);

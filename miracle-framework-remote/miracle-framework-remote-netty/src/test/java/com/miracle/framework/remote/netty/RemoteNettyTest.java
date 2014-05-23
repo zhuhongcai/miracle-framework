@@ -5,13 +5,14 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.annotation.Resource;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
@@ -20,6 +21,7 @@ import com.miracle.framework.container.spring.SpringContainer;
 import com.miracle.framework.remote.exchange.Request;
 import com.miracle.framework.remote.exchange.Response;
 import com.miracle.framework.remote.netty.client.NettyClient;
+import com.miracle.framework.remote.netty.fixture.AsyncQueryCallable;
 import com.miracle.framework.remote.netty.fixture.model.Foo;
 import com.miracle.framework.remote.netty.fixture.service.FooService;
 import com.miracle.framework.remote.netty.server.NettyServer;
@@ -31,7 +33,7 @@ public final class RemoteNettyTest extends AbstractJUnit4SpringContextTests {
 	
 	private static volatile boolean channelOpened = false;
 	
-	private int port = 7099;
+	private int port = 6099;
 	private String ip = "localhost";
 	
 	@Resource
@@ -75,14 +77,6 @@ public final class RemoteNettyTest extends AbstractJUnit4SpringContextTests {
 		}
 	}
 	
-	@Test(expected = ServerTimeoutException.class)
-	@Ignore
-	public void querySlow() {
-		Response response = nettyClient.sent(new Request(FooService.class, "querySlow", "bar"));
-		assertThat(((Foo) response.getReturnValue()).getBar(), is("bar"));
-		assertThat(response.getException(), nullValue());
-	}
-	
 	@Test
 	public void queryWithSystemException() {
 		Response response = nettyClient.sent(new Request(FooService.class, "queryWithSystemException", "bar"));
@@ -90,33 +84,21 @@ public final class RemoteNettyTest extends AbstractJUnit4SpringContextTests {
 		assertThat(response.getException(), instanceOf(ServerException.class));
 	}
 	
+	@Test(expected = ServerTimeoutException.class)
+	public void querySlow() {
+		Response response = nettyClient.sent(new Request(FooService.class, "querySlow", "bar"));
+		assertThat(((Foo) response.getReturnValue()).getBar(), is("bar"));
+		assertThat(response.getException(), nullValue());
+	}
+	
 	@Test
-	@Ignore
-	public void queryForAsync() throws InterruptedException {
-		Executor executor = Executors.newFixedThreadPool(2);
-		Runnable runnable1 = new Runnable() {
-
-			@Override
-			public void run() {
-				Response response = nettyClient.sent(new Request(FooService.class, "query", "bar1"));
-				assertThat(((Foo) response.getReturnValue()).getBar(), is("bar1"));
-				assertThat(response.getException(), nullValue());
-			}
-		};
-		
-		Runnable runnable2 = new Runnable() {
-
-			@Override
-			public void run() {
-				Response response = nettyClient.sent(new Request(FooService.class, "query", "bar2"));
-				assertThat(((Foo) response.getReturnValue()).getBar(), is("bar2"));
-				assertThat(response.getException(), nullValue());
-			}
-		};
-		
-		executor.execute(runnable1);
-		executor.execute(runnable2);
-		
-		Thread.sleep(2000);
+	public void queryForAsync() throws InterruptedException, ExecutionException {
+		ExecutorService executorService = Executors.newFixedThreadPool(2);
+		Future<Response> futrue1 = executorService.submit(new AsyncQueryCallable(nettyClient, "slow"));
+		Future<Response> futrue2 = executorService.submit(new AsyncQueryCallable(nettyClient, "normal"));
+		assertThat(((Foo) futrue1.get().getReturnValue()).getBar(), is("slow"));
+		assertThat(futrue1.get().getException(), nullValue());
+		assertThat(((Foo) futrue2.get().getReturnValue()).getBar(), is("normal"));
+		assertThat(futrue2.get().getException(), nullValue());
 	}
 }

@@ -50,7 +50,7 @@ public class NettyServer implements Server {
 		try {
 			channel = serverBootstrap.bind(port).sync().channel();
 		} catch (InterruptedException ex) {
-			throw new ServerException(ex);
+			throw new ServerException(-1, ex);
 		}
 	}
 	

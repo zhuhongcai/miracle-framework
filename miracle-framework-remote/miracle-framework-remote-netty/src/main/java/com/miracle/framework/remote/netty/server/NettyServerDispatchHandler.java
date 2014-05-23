@@ -25,11 +25,11 @@ public class NettyServerDispatchHandler extends SimpleChannelInboundHandler<Requ
 	@Override
 	protected void messageReceived(final ChannelHandlerContext ctx, final Request request) {
 		Object returnValue = execute(request);
-		Response response; 
+		Response response;
 		if (null == returnValue || Void.class.equals(returnValue.getClass())) {
-			response = new Response(null);
+			response = new Response(request.getMessageId(), null);
 		} else {
-			response = new Response(returnValue);
+			response = new Response(request.getMessageId(), returnValue);
 		}
 		ctx.writeAndFlush(response);
 	}
@@ -41,7 +41,7 @@ public class NettyServerDispatchHandler extends SimpleChannelInboundHandler<Requ
 			Method method = apiInstance.getClass().getMethod(request.getMethod(), getParameterTypes(request.getParameters()));
 			result = method.invoke(apiInstance, request.getParameters());
 		} catch (final ReflectiveOperationException | SystemException ex) {
-			throw new ServerException(ex);
+			throw new ServerException(request.getMessageId(), ex);
 		}
 		return result;
 	}
@@ -58,7 +58,13 @@ public class NettyServerDispatchHandler extends SimpleChannelInboundHandler<Requ
 	
 	@Override
 	public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) throws Exception {
-		ctx.writeAndFlush(new Response(cause));
+		Response response; 
+		if (cause instanceof ServerException) {
+			response = new Response(((ServerException) cause).getMessageId(), cause);
+		} else {
+			response = new Response(-1L, cause);
+		}
+		ctx.writeAndFlush(response);
 	}
 	
 	@Override
