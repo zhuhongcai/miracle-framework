@@ -15,7 +15,6 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.miracle.framework.container.spring.SpringContainer;
 import com.miracle.framework.remote.client.Client;
 import com.miracle.framework.remote.client.exception.CilentException;
 import com.miracle.framework.remote.client.exception.ClientCloseException;
@@ -76,49 +75,5 @@ public class NettyClient implements Client {
 		channel.closeFuture().syncUninterruptibly();
 		workerGroup = null;
 		channel = null;
-	}
-	
-	public static void main(String[] args) throws Exception {
-		final SpringContainer container = new SpringContainer();
-		container.start();
-		
-//		Runnable t1 = new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				NettyClient client = container.getContext().get().getBean(NettyClient.class);
-//				client.connect("localhost", 8080);
-//				client.sent(new Request("Tom", "c", 1));
-//				client.sent(new Request("Jack", "c", 1));
-//				
-//				try {
-//					System.out.println("Main----------:" + client.cilentChannelInitializer.getQueue().poll(5, SECONDS).getException().getCause());
-//					System.out.println("Main----------:" + client.cilentChannelInitializer.getQueue().poll(5, SECONDS).getException().getCause());
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//				
-//			}
-//			
-//
-//		};
-		
-		
-		
-//		new Thread(t1).start();
-		
-		
-		long before = System.currentTimeMillis();
-		NettyClient client2 = container.getContext().get().getBean(NettyClient.class);
-		client2.connect("192.168.98.51", 7099);
-		for (int i = 0;i < 1;i++) {
-			System.out.println(client2.sent(new Request(Object.class, "c", 1)));
-		}
-		long after = System.currentTimeMillis();
-		System.out.println("------Total:" + (after - before));
-		
-//		container.getContext().get().getBean(NettyServer.class).stop();
-		
-//		client2.close();
 	}
 }
