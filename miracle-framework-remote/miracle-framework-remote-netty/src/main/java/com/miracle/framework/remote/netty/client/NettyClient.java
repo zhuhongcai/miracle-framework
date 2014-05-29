@@ -7,24 +7,27 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import com.miracle.framework.remote.client.Client;
 import com.miracle.framework.remote.client.exception.ClientCloseException;
 import com.miracle.framework.remote.exchange.Request;
 import com.miracle.framework.remote.exchange.Response;
+import com.miracle.framework.remote.netty.codec.CodecEnum;
 
 @Component
-public class NettyClient implements Client {
+public class NettyClient implements Client , ApplicationContextAware {
+	
+	private ApplicationContext applicationContext;
 	
 	@Value("${client.worker.group.threads}")
 	private int workerGroupThreads;
 	
-	@Resource
-	private NettyClientChannelInitializer clientChannelInitializer;
+	@Value("${serialize.type}")
+	private CodecEnum codec;
 	
 	private EventLoopGroup workerGroup;
 	private Channel channel;
@@ -38,14 +41,14 @@ public class NettyClient implements Client {
 			.channel(NioSocketChannel.class)
 			.option(ChannelOption.SO_KEEPALIVE, true)
 			.option(ChannelOption.TCP_NODELAY, true)
-			.handler(clientChannelInitializer);
+			.handler(applicationContext.getBean(codec.getClientChannelInitializer()));
 		channel = bootstrap.connect(ip, port).syncUninterruptibly().channel();
 	}
 	
 	@Override
 	public Response sent(final Request request) {
 		channel.writeAndFlush(request);
-		return clientChannelInitializer.getResponse(request.getMessageId());
+		return applicationContext.getBean(CodecEnum.Kryo.getClientChannelInitializer()).getResponse(request.getMessageId());
 	}
 	
 	@Override
@@ -57,5 +60,10 @@ public class NettyClient implements Client {
 		channel.closeFuture().syncUninterruptibly();
 		workerGroup = null;
 		channel = null;
+	}
+	
+	@Override
+	public void setApplicationContext(final ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
 	}
 }

@@ -12,5 +12,6 @@
 	<modules>
 		<module>miracle-framework-common-lang</module>
 		<module>miracle-framework-common-util</module>
+		<module>miracle-framework-common-serialize</module>
 	</modules>
 </project>
