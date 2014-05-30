@@ -9,7 +9,7 @@ import com.miracle.framework.remote.netty.client.NettyClientChannelInitializer;
 import com.miracle.framework.remote.netty.server.JavaNettyServerChannelInitializer;
 import com.miracle.framework.remote.netty.server.KryoNettyServerChannelInitializer;
 
-public enum CodecEnum {
+public enum SerializeType {
 	
 	Java(JavaNettyServerChannelInitializer.class, JavaNettyClientChannelInitializer.class),
 	Kryo(KryoNettyServerChannelInitializer.class, KryoNettyClientChannelInitializer.class);
@@ -17,7 +17,7 @@ public enum CodecEnum {
 	private final Class<? extends ChannelInitializer<SocketChannel>> serverChannelInitializer;
 	private final Class<? extends NettyClientChannelInitializer> clientChannelInitializer;
 	
-	private CodecEnum(final Class<? extends ChannelInitializer<SocketChannel>> serverChannelInitializer, final Class<? extends NettyClientChannelInitializer> clientChannelInitializer) {
+	private SerializeType(final Class<? extends ChannelInitializer<SocketChannel>> serverChannelInitializer, final Class<? extends NettyClientChannelInitializer> clientChannelInitializer) {
 		this.serverChannelInitializer = serverChannelInitializer;
 		this.clientChannelInitializer = clientChannelInitializer;
 	}
