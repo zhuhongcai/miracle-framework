@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import com.miracle.framework.remote.netty.codec.CodecEnum;
+import com.miracle.framework.remote.netty.codec.SerializeType;
 import com.miracle.framework.remote.server.Server;
 import com.miracle.framework.remote.server.exception.ServerException;
 import com.miracle.framework.remote.server.exception.ServerStopException;
@@ -32,7 +32,7 @@ public class NettyServer implements Server, ApplicationContextAware {
 	private int backlogSize;
 	
 	@Value("${serialize.type}")
-	private CodecEnum codec;
+	private SerializeType serializeType;
 	
 	private Channel channel;
 	private EventLoopGroup bossGroup;
@@ -49,7 +49,7 @@ public class NettyServer implements Server, ApplicationContextAware {
 			.option(ChannelOption.SO_BACKLOG, backlogSize)
 			.childOption(ChannelOption.SO_KEEPALIVE, true)
 			.childOption(ChannelOption.TCP_NODELAY, true)
-			.childHandler(applicationContext.getBean(codec.getServerChannelInitializer()));
+			.childHandler(applicationContext.getBean(serializeType.getServerChannelInitializer()));
 		try {
 			channel = serverBootstrap.bind(port).sync().channel();
 		} catch (final InterruptedException ex) {

@@ -16,7 +16,7 @@ import com.miracle.framework.remote.client.Client;
 import com.miracle.framework.remote.client.exception.ClientCloseException;
 import com.miracle.framework.remote.exchange.Request;
 import com.miracle.framework.remote.exchange.Response;
-import com.miracle.framework.remote.netty.codec.CodecEnum;
+import com.miracle.framework.remote.netty.codec.SerializeType;
 
 @Component
 public class NettyClient implements Client , ApplicationContextAware {
@@ -27,7 +27,7 @@ public class NettyClient implements Client , ApplicationContextAware {
 	private int workerGroupThreads;
 	
 	@Value("${serialize.type}")
-	private CodecEnum codec;
+	private SerializeType serializeType;
 	
 	private EventLoopGroup workerGroup;
 	private Channel channel;
@@ -41,14 +41,14 @@ public class NettyClient implements Client , ApplicationContextAware {
 			.channel(NioSocketChannel.class)
 			.option(ChannelOption.SO_KEEPALIVE, true)
 			.option(ChannelOption.TCP_NODELAY, true)
-			.handler(applicationContext.getBean(codec.getClientChannelInitializer()));
+			.handler(applicationContext.getBean(serializeType.getClientChannelInitializer()));
 		channel = bootstrap.connect(ip, port).syncUninterruptibly().channel();
 	}
 	
 	@Override
 	public Response sent(final Request request) {
 		channel.writeAndFlush(request);
-		return applicationContext.getBean(CodecEnum.Kryo.getClientChannelInitializer()).getResponse(request.getMessageId());
+		return applicationContext.getBean(serializeType.getClientChannelInitializer()).getResponse(request.getMessageId());
 	}
 	
 	@Override
