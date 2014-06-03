@@ -10,6 +10,7 @@ import static org.junit.Assert.assertThat;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -81,6 +82,11 @@ public final class KryoSerializationTest {
 	@Test
 	public void encodeAndDecodeString() throws IOException {
 		assertEncodeAndDecode("中文");
+	}
+	
+	@Test
+	public void encodeAndDecodeBigDecimal() throws IOException {
+		assertEncodeAndDecode(new BigDecimal("100000000.01"));
 	}
 	
 	@Test

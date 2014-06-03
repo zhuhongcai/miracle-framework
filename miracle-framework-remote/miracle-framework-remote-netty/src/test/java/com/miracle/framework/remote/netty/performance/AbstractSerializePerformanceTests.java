@@ -16,6 +16,7 @@ import com.miracle.framework.remote.netty.server.NettyServer;
 public abstract class AbstractSerializePerformanceTests extends AbstractJUnit4SpringContextTests {
 	
 	private final int loopTimes = 10000;
+	
 	private int port;
 	private String ip = "localhost";
 	
