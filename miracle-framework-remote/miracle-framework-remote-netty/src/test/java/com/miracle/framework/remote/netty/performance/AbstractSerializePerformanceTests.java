@@ -14,7 +14,8 @@ import com.miracle.framework.remote.netty.fixture.service.FooService;
 import com.miracle.framework.remote.netty.server.NettyServer;
 
 public abstract class AbstractSerializePerformanceTests extends AbstractJUnit4SpringContextTests {
-
+	
+	private final int loopTimes = 10000;
 	private int port;
 	private String ip = "localhost";
 	
@@ -35,7 +36,7 @@ public abstract class AbstractSerializePerformanceTests extends AbstractJUnit4Sp
 	public void doQuery() {
 		nettyServer.start(port);
 		nettyClient.connect(ip, port);
-		for (int i = 0;i < 10000;i++) {
+		for (int i = 0;i < loopTimes;i++) {
 			Response response = nettyClient.sent(new Request(FooService.class, "query", "bar" + i));
 			assertHasReturnValue(response, "bar" + i);
 		}
