@@ -5,6 +5,7 @@ import static com.miracle.framework.remote.netty.asserter.FooResponseAssert.asse
 import static com.miracle.framework.remote.netty.asserter.FooResponseAssert.assertHasReturnValue;
 import static com.miracle.framework.remote.netty.asserter.FooResponseAssert.assertNoReturnValue;
 
+import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,7 +30,7 @@ import com.miracle.framework.remote.server.exception.ServerException;
 @ContextConfiguration(locations = SpringContainer.CONFIG_FILE)
 public final class RemoteNettyTest extends AbstractJUnit4SpringContextTests {
 	
-	private static volatile boolean channelOpened = false;
+	private static volatile boolean serverStarted = false;
 	
 	private int port = 6099;
 	private String ip = "localhost";
@@ -40,16 +41,13 @@ public final class RemoteNettyTest extends AbstractJUnit4SpringContextTests {
 	@Resource
 	private NettyClient nettyClient;
 	
-	@Resource
-	private FooService fooService;
-	
 	@Before
 	public void setUp() {
-		if (!channelOpened) {
+		if (!serverStarted) {
 			nettyServer.start(port);
-			nettyClient.connect(ip, port);
-			channelOpened = true;
+			serverStarted = true;
 		}
+		nettyClient.connect(new InetSocketAddress(ip, port));
 	}
 	
 	@Test

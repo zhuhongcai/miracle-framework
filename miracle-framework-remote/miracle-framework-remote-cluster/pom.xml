@@ -5,20 +5,10 @@
 		<artifactId>miracle-framework-remote</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>miracle-framework-remote-netty</artifactId>
+	<artifactId>miracle-framework-remote-cluster</artifactId>
 	<name>${project.artifactId}</name>
 	
 	<dependencies>
-		<dependency>
-			<groupId>com.miracle</groupId>
-			<artifactId>miracle-framework-common-lang</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.miracle</groupId>
-			<artifactId>miracle-framework-common-serialize</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>com.miracle</groupId>
 			<artifactId>miracle-framework-container-api</artifactId>
@@ -34,20 +24,7 @@
 			<artifactId>miracle-framework-remote-api</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.miracle</groupId>
-			<artifactId>miracle-framework-remote-cluster</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
 		
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.esotericsoftware.kryo</groupId>
-			<artifactId>kryo</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>

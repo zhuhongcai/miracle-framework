@@ -11,6 +11,7 @@
 	
 	<modules>
 		<module>miracle-framework-remote-api</module>
+		<module>miracle-framework-remote-cluster</module>
 		<module>miracle-framework-remote-netty</module>
 	</modules>
 </project>

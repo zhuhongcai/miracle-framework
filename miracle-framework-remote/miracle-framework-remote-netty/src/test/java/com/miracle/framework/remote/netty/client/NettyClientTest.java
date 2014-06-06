@@ -1,5 +1,7 @@
 package com.miracle.framework.remote.netty.client;
 
+import java.net.InetSocketAddress;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -12,6 +14,9 @@ import com.miracle.framework.remote.netty.server.NettyServer;
 
 @ContextConfiguration(locations = SpringContainer.CONFIG_FILE)
 public final class NettyClientTest extends AbstractJUnit4SpringContextTests {
+	
+	private final String ip = "localhost";
+	private final int port = 2345;
 	
 	@Resource
 	private NettyServer nettyServer;
@@ -26,8 +31,8 @@ public final class NettyClientTest extends AbstractJUnit4SpringContextTests {
 	
 	@Test
 	public void closeClient() {
-		nettyServer.start(2345);
-		nettyClient.connect("localhost", 2345);
+		nettyServer.start(port);
+		nettyClient.connect(new InetSocketAddress(ip, port));
 		nettyClient.close();
 	}
 }

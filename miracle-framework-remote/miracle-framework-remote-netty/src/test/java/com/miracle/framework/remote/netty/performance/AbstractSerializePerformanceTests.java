@@ -2,6 +2,8 @@ package com.miracle.framework.remote.netty.performance;
 
 import static com.miracle.framework.remote.netty.asserter.FooResponseAssert.assertHasReturnValue;
 
+import java.net.InetSocketAddress;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -36,7 +38,7 @@ public abstract class AbstractSerializePerformanceTests extends AbstractJUnit4Sp
 	@Test
 	public void doQuery() {
 		nettyServer.start(port);
-		nettyClient.connect(ip, port);
+		nettyClient.connect(new InetSocketAddress(ip, port));
 		for (int i = 0;i < loopTimes;i++) {
 			Response response = nettyClient.sent(new Request(FooService.class, "query", "bar" + i));
 			assertHasReturnValue(response, "bar" + i);
